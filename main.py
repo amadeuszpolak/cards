@@ -9,7 +9,7 @@ class BaseContact:
         self.email = email
         self.phone = phone
 
-        self._label_length = 0
+        self._label_length = len(f'{self.first_name} {self.last_name}')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} {self.email} {self.phone}'
@@ -19,7 +19,6 @@ class BaseContact:
 
     @property
     def label_length(self):
-        self._label_length = len(f'{self.first_name} {self.last_name}')
         return self._label_length
 
 
@@ -39,21 +38,20 @@ class BusinessContact(BaseContact):
 
 def create_contacts(category, cards_number):
     temp_card_list = []
-    for i in range(int(cards_number)):
+    for _ in range(int(cards_number)):
         if category == '1':
-            card = BaseContact(first_name=fake.first_name(), last_name=fake.last_name(
-            ), email=fake.email(), phone=fake.phone_number())
+            card = BaseContact(first_name=fake.first_name(), last_name=fake.last_name(), email=fake.email(), phone=fake.phone_number())
         elif category == '2':
-            card = BusinessContact(first_name=fake.first_name(), last_name=fake.last_name(), email=fake.email(
-            ), phone=fake.phone_number(), position=fake.job(), company=fake.company(), business_phone=fake.phone_number())
+            card = BusinessContact(first_name=fake.first_name(), last_name=fake.last_name(), email=fake.email(), phone=fake.phone_number(), position=fake.job(), company=fake.company(), business_phone=fake.phone_number())
         temp_card_list.append(card)
     return temp_card_list
 
 
 if __name__ == "__main__":
-    card_list = []
     cards_number = input("Ile wizytówek stworzyć? ")
     cat_number = input("Kategoria wizytówek (1-Podstawowa, 2-Biznesowa)? ")
+    while cat_number not in {"1", "2"}:
+            cat_number = input("Podaj liczbę 1 lub 2: ")
     card_list = create_contacts(cat_number, cards_number)
     for i in card_list:
         print(i)
